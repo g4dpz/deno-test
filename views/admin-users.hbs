@@ -88,10 +88,14 @@
               </td>
               <td>
                 <button onclick="editUser('{{this.email}}', '{{this.name}}', '{{this.rolesString}}')" class="btn-edit" id="edit-user-{{this.email}}">Edit</button>
-                <form method="POST" action="/admin/users/delete" style="display: inline;">
-                  <input type="hidden" name="email" value="{{this.email}}">
-                  <button type="submit" class="btn-delete" id="delete-user-{{this.email}}" onclick="return confirm('Delete user {{this.email}}?')">Delete</button>
-                </form>
+                {{#if (eq this.email "admin@example.com")}}
+                  <button type="button" class="btn-delete btn-disabled" disabled title="Cannot delete primary admin">Delete</button>
+                {{else}}
+                  <form method="POST" action="/admin/users/delete" style="display: inline;">
+                    <input type="hidden" name="email" value="{{this.email}}">
+                    <button type="submit" class="btn-delete" id="delete-user-{{this.email}}" onclick="return confirm('Delete user {{this.email}}?')">Delete</button>
+                  </form>
+                {{/if}}
               </td>
             </tr>
           {{/each}}

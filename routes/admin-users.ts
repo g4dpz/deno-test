@@ -3,11 +3,13 @@ import { Handlebars } from "https://deno.land/x/handlebars@v0.9.0/mod.ts";
 import { db } from "../db/database.ts";
 import { requireAdmin } from "../middleware/auth.ts";
 import { hashPassword } from "../utils/password.ts";
+import { handlebarsHelpers } from "../utils/handlebars-helpers.ts";
 
 const handle = new Handlebars({
   baseDir: "views",
   extname: ".hbs",
   defaultLayout: "",
+  helpers: handlebarsHelpers,
 });
 
 export const adminUsersRouter = new Router();
@@ -85,6 +87,28 @@ adminUsersRouter.post("/admin/users/delete", requireAdmin, async (ctx) => {
   const body = ctx.request.body;
   const formData = await body.formData();
   const email = formData.get("email") as string;
+
+  // Prevent deletion of admin user
+  if (email === "admin@example.com") {
+    ctx.response.redirect("/admin/users?error=Cannot delete the primary admin user");
+    return;
+  }
+
+  // Check if user has admin role
+  const user = await db.getUserByEmail(email);
+  if (user) {
+    const roles = await db.getUserRoles(user.id);
+    if (roles.includes("admin")) {
+      // Count total admin users
+      const allUsers = await db.getAllUsers();
+      const adminCount = allUsers.filter(u => u.roles.includes("admin")).length;
+      
+      if (adminCount <= 1) {
+        ctx.response.redirect("/admin/users?error=Cannot delete the last admin user");
+        return;
+      }
+    }
+  }
 
   const deleted = await db.deleteUser(email);
   if (deleted) {
