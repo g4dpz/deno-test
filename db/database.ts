@@ -211,6 +211,21 @@ export class Database {
   async deleteSession(sessionId: string) {
     await this.client.execute("DELETE FROM sessions WHERE id = ?", [sessionId]);
   }
+
+  // Password operations
+  async updateUserPassword(email: string, hashedPassword: string) {
+    await this.client.execute(
+      "UPDATE users SET password = ? WHERE email = ?",
+      [hashedPassword, email]
+    );
+  }
+
+  async getAllUsersWithPasswords() {
+    const result = await this.client.query(
+      "SELECT id, email, name, password FROM users ORDER BY email"
+    );
+    return result;
+  }
 }
 
 // Singleton instance

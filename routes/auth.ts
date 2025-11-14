@@ -1,6 +1,7 @@
 import { Router } from "jsr:@oak/oak@^17.1.3";
 import { Handlebars } from "https://deno.land/x/handlebars@v0.9.0/mod.ts";
 import { db } from "../db/database.ts";
+import { verifyPassword, isPasswordHashed, hashPassword } from "../utils/password.ts";
 
 const handle = new Handlebars({
   baseDir: "views",
@@ -28,7 +29,29 @@ authRouter.post("/login", async (ctx) => {
   const password = formData.get("password") as string;
 
   const user = await db.getUserByEmail(email);
-  if (user && user.password === password) {
+  if (!user) {
+    ctx.response.redirect("/login?error=Invalid credentials");
+    return;
+  }
+
+  // Check if password is hashed or plain text
+  let isValid = false;
+  if (isPasswordHashed(user.password)) {
+    // Verify against bcrypt hash
+    isValid = await verifyPassword(password, user.password);
+  } else {
+    // Legacy plain text comparison
+    isValid = user.password === password;
+    
+    // If valid, upgrade to bcrypt hash
+    if (isValid) {
+      const hashedPassword = await hashPassword(password);
+      await db.updateUserPassword(email, hashedPassword);
+      console.log(`✓ Upgraded password for ${email} to bcrypt`);
+    }
+  }
+
+  if (isValid) {
     const sessionId = crypto.randomUUID();
     await db.createSession(sessionId, user.id);
     await ctx.cookies.set("session_id", sessionId, { httpOnly: true });

@@ -2,6 +2,7 @@ import { Router } from "jsr:@oak/oak@^17.1.3";
 import { Handlebars } from "https://deno.land/x/handlebars@v0.9.0/mod.ts";
 import { db } from "../db/database.ts";
 import { requireAdmin } from "../middleware/auth.ts";
+import { hashPassword } from "../utils/password.ts";
 
 const handle = new Handlebars({
   baseDir: "views",
@@ -47,7 +48,9 @@ adminUsersRouter.post("/admin/users/create", requireAdmin, async (ctx) => {
   if (existingUser) {
     ctx.response.redirect("/admin/users?error=User already exists");
   } else {
-    await db.createUser(email, name, password, roles);
+    // Hash password before storing
+    const hashedPassword = await hashPassword(password);
+    await db.createUser(email, name, hashedPassword, roles);
     ctx.response.redirect("/admin/users?success=User created");
   }
 });
@@ -61,7 +64,13 @@ adminUsersRouter.post("/admin/users/update", requireAdmin, async (ctx) => {
   const password = formData.get("password") as string;
   const roles = formData.getAll("roles") as string[];
 
-  const updated = await db.updateUser(email, name, password || null, roles);
+  // Hash password if provided
+  let hashedPassword = null;
+  if (password) {
+    hashedPassword = await hashPassword(password);
+  }
+
+  const updated = await db.updateUser(email, name, hashedPassword, roles);
   if (updated) {
     ctx.response.redirect("/admin/users?success=User updated");
   } else {
