@@ -549,3 +549,58 @@ h2 {
 .contact-card p {
   margin: 8px 0;
 }
+
+/* Logo/Brand styles */
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.2em;
+  color: #667eea;
+  text-decoration: none;
+  margin-right: 20px;
+  padding: 5px 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+  border: 2px solid #667eea;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.brand-logo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.brand-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 6px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.brand-icon::before {
+  content: 'A';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: 900;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.brand-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
