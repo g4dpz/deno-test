@@ -30,6 +30,8 @@ adminUsersRouter.get("/admin/users", requireAdmin, async (ctx) => {
     isAdmin: true,
     users: usersWithRolesString,
     availableRoles: availableRoles,
+    error: ctx.request.url.searchParams.get("error"),
+    success: ctx.request.url.searchParams.get("success"),
   };
   ctx.response.body = await handle.renderView("admin-users", data);
   ctx.response.type = "text/html";

@@ -23,6 +23,14 @@
     
     <h1 id="page-title">{{title}}</h1>
     
+    {{#if error}}
+      <div class="error-message" id="error-message">{{error}}</div>
+    {{/if}}
+    
+    {{#if success}}
+      <div class="success-message" id="success-message">{{success}}</div>
+    {{/if}}
+    
     <div class="admin-section" id="create-user-section">
       <h2 id="create-user-heading">Create New User</h2>
       <form method="POST" action="/admin/users/create" class="admin-form" id="create-user-form">

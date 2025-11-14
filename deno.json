@@ -4,7 +4,13 @@
     "start": "deno run --allow-net --allow-read --allow-env --env main.ts",
     "db:setup": "mysql -u root -p < db/schema.sql && mysql -u root -p < db/seed.sql",
     "dump-passwords": "deno run --allow-net --allow-read --allow-write --allow-env --env scripts/dump-passwords.ts",
-    "migrate-passwords": "deno run --allow-net --allow-read --allow-env --env scripts/migrate-passwords.ts"
+    "migrate-passwords": "deno run --allow-net --allow-read --allow-env --env scripts/migrate-passwords.ts",
+    "test": "deno test --allow-all --no-check tests/",
+    "test:auth": "deno test --allow-all --no-check --trace-leaks tests/auth.test.ts",
+    "test:users": "deno test --allow-all --no-check tests/user-management.test.ts",
+    "test:roles": "deno test --allow-all --no-check tests/role-management.test.ts",
+    "test:nav": "deno test --allow-all --no-check tests/navigation.test.ts",
+    "test:all": "bash scripts/test-runner.sh"
   },
   "imports": {
     "oak": "jsr:@oak/oak@^17.1.3",
