@@ -6,6 +6,7 @@ import { publicRouter } from "./routes/public.ts";
 import { authRouter } from "./routes/auth.ts";
 import { adminUsersRouter } from "./routes/admin-users.ts";
 import { adminRolesRouter } from "./routes/admin-roles.ts";
+import { resourcesRouter } from "./routes/resources.ts";
 
 const app = new Application();
 
@@ -25,6 +26,8 @@ app.use(adminUsersRouter.routes());
 app.use(adminUsersRouter.allowedMethods());
 app.use(adminRolesRouter.routes());
 app.use(adminRolesRouter.allowedMethods());
+app.use(resourcesRouter.routes());
+app.use(resourcesRouter.allowedMethods());
 
 // Start server
 const PORT = 8000;
