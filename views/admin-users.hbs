@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}} - Deno App</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="container">
+    <nav id="main-nav">
+      <a href="/" id="nav-home">Home</a>
+      <a href="/about" id="nav-about">About</a>
+      <a href="/api/data" id="nav-api">API</a>
+      {{#if isAdmin}}
+        <a href="/admin/users" id="nav-admin-users">Users</a>
+        <a href="/admin/roles" id="nav-admin-roles">Roles</a>
+      {{/if}}
+      <a href="/logout" class="nav-right" id="nav-logout">Logout</a>
+    </nav>
+    
+    <div class="user-info" id="user-info-display">Logged in as: {{user.email}} (Admin)</div>
+    
+    <h1 id="page-title">{{title}}</h1>
+    
+    <div class="admin-section" id="create-user-section">
+      <h2 id="create-user-heading">Create New User</h2>
+      <form method="POST" action="/admin/users/create" class="admin-form" id="create-user-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="create-user-email">Email</label>
+            <input type="email" id="create-user-email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="create-user-name">Name</label>
+            <input type="text" id="create-user-name" name="name" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="create-user-password">Password</label>
+          <input type="password" id="create-user-password" name="password" required>
+        </div>
+        <div class="form-group">
+          <label>Roles</label>
+          <div class="checkbox-group" id="create-user-roles">
+            {{#each availableRoles}}
+              <label class="checkbox-label">
+                <input type="checkbox" name="roles" value="{{this}}" id="create-role-{{this}}">
+                {{this}}
+              </label>
+            {{/each}}
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" id="create-user-submit-btn">Create User</button>
+      </form>
+    </div>
+    
+    <div class="admin-section" id="users-list-section">
+      <h2 id="users-list-heading">Existing Users</h2>
+      <table class="users-table" id="users-table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Roles</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="users-table-body">
+          {{#each users}}
+            <tr data-user-email="{{this.email}}" class="user-row">
+              <td class="user-email">{{this.email}}</td>
+              <td class="user-name">{{this.name}}</td>
+              <td>
+                <div class="roles-container">
+                  {{#each this.roles}}
+                    <span class="role-badge role-{{this}}">{{this}}</span>
+                  {{/each}}
+                </div>
+              </td>
+              <td>
+                <button onclick="editUser('{{this.email}}', '{{this.name}}', '{{this.rolesString}}')" class="btn-edit" id="edit-user-{{this.email}}">Edit</button>
+                <form method="POST" action="/admin/users/delete" style="display: inline;">
+                  <input type="hidden" name="email" value="{{this.email}}">
+                  <button type="submit" class="btn-delete" id="delete-user-{{this.email}}" onclick="return confirm('Delete user {{this.email}}?')">Delete</button>
+                </form>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    
+    <div id="edit-user-modal" class="modal">
+      <div class="modal-content" id="edit-modal-content">
+        <span class="close" onclick="closeModal()" id="edit-modal-close">&times;</span>
+        <h2 id="edit-modal-heading">Edit User</h2>
+        <form method="POST" action="/admin/users/update" class="admin-form" id="edit-user-form">
+          <input type="hidden" id="edit-user-email" name="email">
+          <div class="form-group">
+            <label for="edit-user-name">Name</label>
+            <input type="text" id="edit-user-name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-user-password">Password (leave blank to keep current)</label>
+            <input type="password" id="edit-user-password" name="password">
+          </div>
+          <div class="form-group">
+            <label>Roles</label>
+            <div class="checkbox-group" id="edit-user-roles">
+              {{#each availableRoles}}
+                <label class="checkbox-label">
+                  <input type="checkbox" name="roles" value="{{this}}" class="edit-role-checkbox" id="edit-role-{{this}}">
+                  {{this}}
+                </label>
+              {{/each}}
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" id="edit-user-submit-btn">Update User</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function editUser(email, name, rolesString) {
+      document.getElementById('edit-user-email').value = email;
+      document.getElementById('edit-user-name').value = name;
+      
+      // Uncheck all checkboxes first
+      const checkboxes = document.querySelectorAll('.edit-role-checkbox');
+      checkboxes.forEach(cb => cb.checked = false);
+      
+      // Check the roles that the user has
+      const userRoles = rolesString.split(', ');
+      checkboxes.forEach(cb => {
+        if (userRoles.includes(cb.value)) {
+          cb.checked = true;
+        }
+      });
+      
+      document.getElementById('edit-user-modal').style.display = 'block';
+    }
+    
+    function closeModal() {
+      document.getElementById('edit-user-modal').style.display = 'none';
+    }
+    
+    window.onclick = function(event) {
+      const modal = document.getElementById('edit-user-modal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,381 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+nav {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #eee;
+}
+
+nav a {
+  color: #667eea;
+  text-decoration: none;
+  margin-right: 20px;
+  font-weight: 600;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #667eea;
+  margin-top: 30px;
+}
+
+.welcome-message {
+  font-size: 1.2em;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: 1.1em;
+  color: #555;
+  line-height: 1.6;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+}
+
+.features-list li {
+  padding: 10px;
+  margin: 10px 0;
+  background: #f5f5f5;
+  border-radius: 6px;
+}
+
+.tech-stack {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.tech-stack h3 {
+  color: #667eea;
+  margin-bottom: 10px;
+}
+
+.tech-stack ul {
+  color: #666;
+  line-height: 1.8;
+}
+
+.nav-right {
+  float: right;
+}
+
+.user-info {
+  background: #e8f4f8;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  color: #555;
+  font-size: 0.9em;
+}
+
+.login-form {
+  max-width: 400px;
+  margin: 30px auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1em;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-primary:hover {
+  background: #5568d3;
+}
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 4px solid #c33;
+}
+
+.demo-credentials {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.demo-credentials p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.demo-credentials strong {
+  color: #667eea;
+}
+
+.admin-section {
+  margin-top: 30px;
+  padding: 25px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.admin-section h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #667eea;
+}
+
+.admin-form {
+  max-width: 100%;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.admin-form select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1em;
+  transition: border-color 0.3s;
+}
+
+.admin-form select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.users-table th,
+.users-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.users-table th {
+  background: #667eea;
+  color: white;
+  font-weight: 600;
+}
+
+.users-table tr:hover {
+  background: #f5f5f5;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+.role-user {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.role-admin {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9em;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: opacity 0.3s;
+}
+
+.btn-edit {
+  background: #4caf50;
+  color: white;
+}
+
+.btn-edit:hover {
+  opacity: 0.8;
+}
+
+.btn-delete {
+  background: #f44336;
+  color: white;
+}
+
+.btn-delete:hover {
+  opacity: 0.8;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+
+.roles-container {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.role-editor {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.role-viewer {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border: 2px solid #e0e0e0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.checkbox-label:hover {
+  background: #f0f0f0;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.success-message {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 4px solid #4caf50;
+}
+
+.role-created {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.role-usage {
+  text-align: center;
+  font-weight: 600;
+}

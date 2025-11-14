@@ -1,0 +1,14 @@
+{
+  "tasks": {
+    "dev": "deno run --allow-net --allow-read --allow-env --env --watch main.ts",
+    "start": "deno run --allow-net --allow-read --allow-env --env main.ts",
+    "db:setup": "mysql -u root -p < db/schema.sql && mysql -u root -p < db/seed.sql",
+    "dump-passwords": "deno run --allow-net --allow-read --allow-write --allow-env --env scripts/dump-passwords.ts"
+  },
+  "imports": {
+    "oak": "jsr:@oak/oak@^17.1.3",
+    "handlebars": "https://deno.land/x/handlebars@v0.9.0/mod.ts",
+    "mysql": "https://deno.land/x/mysql@v2.12.1/mod.ts",
+    "bcrypt": "https://deno.land/x/bcrypt@v0.4.1/mod.ts"
+  }
+}

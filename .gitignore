@@ -1,0 +1,16 @@
+# Environment variables
+.env
+
+# Sensitive data
+password-dump.json
+
+# Deno
+.deno/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
