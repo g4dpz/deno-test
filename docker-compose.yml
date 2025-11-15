@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: deno-app-mysql
+    command: --default-authentication-plugin=caching_sha2_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${DB_NAME:-deno_app}
+      MYSQL_USER: ${DB_USER:-denoapp}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-denopassword}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DB_USER:-denoapp}", "-p${DB_PASSWORD:-denopassword}"]
+      timeout: 5s
+      retries: 10
+    networks:
+      - deno-network
+
+  app:
+    build: .
+    container_name: deno-app
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-denoapp}
+      DB_PASSWORD: ${DB_PASSWORD:-denopassword}
+      DB_NAME: ${DB_NAME:-deno_app}
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - deno-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  deno-network:
+    driver: bridge

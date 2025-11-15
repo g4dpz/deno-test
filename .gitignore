@@ -7,6 +7,9 @@ password-dump.json
 # Deno
 .deno/
 
+# Docker
+docker-compose.override.yml
+
 # IDE
 .vscode/
 .idea/
